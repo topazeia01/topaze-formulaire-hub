@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topaze Assurance - Nouvelle affaire automobile</title>
+<style>
+  *{
+    box-sizing:border-box;
+  }
+
+  body{
+    font-family: Arial, Helvetica, sans-serif;
+    background:#f5f7f6;
+    color:#333;
+    max-width:920px;
+    margin:auto;
+    padding:40px 20px;
+  }
+
+  .logo{
+    text-align:center;
+    font-size:24px;
+    font-weight:700;
+    color:#168a63;
+    margin-bottom:10px;
+  }
+
+  h1{
+    text-align:center;
+    color:#168a63;
+    margin-bottom:28px;
+  }
+
+  h2{
+    color:#168a63;
+    margin:0 0 18px 0;
+    font-size:22px;
+  }
+
+  .section{
+    background:#fff;
+    padding:28px;
+    margin-top:24px;
+    border-radius:14px;
+    box-shadow:0 3px 10px rgba(0,0,0,0.08);
+    border:1px solid #e6ece9;
+  }
+
+  label{
+    display:block;
+    margin-top:14px;
+    margin-bottom:6px;
+    font-weight:600;
+  }
+
+  input, select, textarea{
+    width:100%;
+    padding:12px 14px;
+    border:1px solid #cfd8d3;
+    border-radius:8px;
+    font-size:14px;
+    background:#fff;
+    color:#222;
+  }
+
+  input:focus, select:focus, textarea:focus{
+    outline:none;
+    border-color:#3EC87E;
+    box-shadow:0 0 0 3px rgba(62,200,126,0.18);
+  }
+
+  .row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:22px;
+    margin-top:4px;
+  }
+
+  .row-3{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:22px;
+    margin-top:4px;
+  }
+
+  .field{
+    min-width:0;
+  }
+
+  .hint{
+    font-size:12px;
+    color:#666;
+    margin-top:8px;
+    line-height:1.4;
+  }
+
+  .status{
+    margin-top:10px;
+    font-size:13px;
+    font-weight:600;
+    min-height:18px;
+  }
+
+  .status.ok{ color:#168a63; }
+  .status.err{ color:#b42318; }
+  .status.loading{ color:#666; }
+
+  button{
+    margin-top:30px;
+    width:100%;
+    padding:15px;
+    background:#3EC87E;
+    color:#fff;
+    border:none;
+    font-size:18px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:700;
+  }
+
+  button:hover{
+    background:#2faa68;
+  }
+
+  @media (max-width: 760px){
+    .row, .row-3{
+      grid-template-columns:1fr;
+      gap:10px;
+    }
+
+    .section{
+      padding:22px 18px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="logo">Topaze Assurance</div>
+<h1>Nouvelle affaire automobile</h1>
+
+<form>
+  <div class="section">
+    <h2>Informations personnelles</h2>
+
+    <div class="row">
+      <div class="field">
+        <label for="prenom">Prénom</label>
+        <input id="prenom" name="prenom" type="text">
+      </div>
+      <div class="field">
+        <label for="nom">Nom</label>
+        <input id="nom" name="nom" type="text">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label for="dateNaissance">Date de naissance</label>
+        <input id="dateNaissance" name="dateNaissance" type="date">
+      </div>
+      <div class="field">
+        <label for="telephone">Téléphone</label>
+        <input id="telephone" name="telephone" type="tel">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label for="courriel">Courriel</label>
+        <input id="courriel" name="courriel" type="email">
+      </div>
+      <div class="field">
+        <label for="occupation">Occupation / emploi</label>
+        <input id="occupation" name="occupation" type="text">
+      </div>
+    </div>
+
+    <label for="adresse">Adresse complète</label>
+    <input id="adresse" name="adresse" type="text">
+  </div>
+
+  <div class="section">
+    <h2>Assurance actuelle</h2>
+
+    <div class="row">
+      <div class="field">
+        <label for="assureurActuel">Assureur actuel</label>
+        <input id="assureurActuel" name="assureurActuel" type="text">
+      </div>
+      <div class="field">
+        <label for="dateEffet">Date d’effet souhaitée</label>
+        <input id="dateEffet" name="dateEffet" type="date">
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Véhicule</h2>
+
+    <label for="vin">VIN (NIP)</label>
+    <input id="vin" name="vin" type="text" maxlength="17" placeholder="Ex. 2HGFC2F69KH000000">
+    <div class="hint">Entre un VIN de 17 caractères pour remplir automatiquement l’année, la marque et le modèle.</div>
+    <div id="vinStatus" class="status"></div>
+
+    <div class="row-3">
+      <div class="field">
+        <label for="annee">Année</label>
+        <input id="annee" name="annee" type="text">
+      </div>
+      <div class="field">
+        <label for="marque">Marque</label>
+        <input id="marque" name="marque" type="text">
+      </div>
+      <div class="field">
+        <label for="modele">Modèle</label>
+        <input id="modele" name="modele" type="text">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label for="titulaire">Titulaire du véhicule</label>
+        <input id="titulaire" name="titulaire" type="text">
+      </div>
+      <div class="field">
+        <label for="financement">Type de financement</label>
+        <select id="financement" name="financement">
+          <option value="">Sélectionner</option>
+          <option>Aucun</option>
+          <option>Financement</option>
+          <option>Location</option>
+        </select>
+      </div>
+    </div>
+
+    <label for="adresseCreancier">Adresse du créancier</label>
+    <input id="adresseCreancier" name="adresseCreancier" type="text">
+
+    <div class="row">
+      <div class="field">
+        <label for="vehiculeModifie">Véhicule modifié</label>
+        <select id="vehiculeModifie" name="vehiculeModifie">
+          <option>Non</option>
+          <option>Oui</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="usageHorsQc">Usage hors Québec</label>
+        <select id="usageHorsQc" name="usageHorsQc">
+          <option>Non</option>
+          <option>Oui</option>
+        </select>
+      </div>
+    </div>
+
+    <label for="valeurNeuf">Valeur à neuf</label>
+    <select id="valeurNeuf" name="valeurNeuf">
+      <option>Non</option>
+      <option>Oui</option>
+    </select>
+  </div>
+
+  <div class="section">
+    <h2>Déclarations obligatoires</h2>
+
+    <div class="row">
+      <div class="field">
+        <label for="consentementCredit">Consentement crédit</label>
+        <select id="consentementCredit" name="consentementCredit">
+          <option>Oui</option>
+          <option>Non</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="sinistreNonDeclare">Sinistre non déclaré</label>
+        <select id="sinistreNonDeclare" name="sinistreNonDeclare">
+          <option>Non</option>
+          <option>Oui</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label for="faillite">Faillite</label>
+        <select id="faillite" name="faillite">
+          <option>Non</option>
+          <option>Oui</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="policeAnnulee">Police annulée</label>
+        <select id="policeAnnulee" name="policeAnnulee">
+          <option>Non</option>
+          <option>Oui</option>
+        </select>
+      </div>
+    </div>
+
+    <label for="dossierCriminel">Dossier criminel</label>
+    <select id="dossierCriminel" name="dossierCriminel">
+      <option>Non</option>
+      <option>Oui</option>
+    </select>
+  </div>
+
+  <div class="section">
+    <h2>Notes supplémentaires</h2>
+    <textarea id="notes" name="notes" rows="5"></textarea>
+  </div>
+
+  <button type="submit">Envoyer la demande</button>
+</form>
+
+<script>
+  const vinInput = document.getElementById("vin");
+  const yearInput = document.getElementById("annee");
+  const makeInput = document.getElementById("marque");
+  const modelInput = document.getElementById("modele");
+  const statusEl = document.getElementById("vinStatus");
+
+  let vinTimer = null;
+
+  function setStatus(message, type = "") {
+    statusEl.textContent = message;
+    statusEl.className = "status" + (type ? " " + type : "");
+  }
+
+  function cleanVin(vin) {
+    return vin.toUpperCase().replace(/[^A-Z0-9]/g, "");
+  }
+
+  async function decodeVin(vin) {
+    const apiUrl = `https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVinValues/${vin}?format=json`;
+
+    setStatus("Décodage du VIN en cours…", "loading");
+
+    try {
+      const response = await fetch(apiUrl);
+      if (!response.ok) throw new Error("Erreur réseau");
+
+      const data = await response.json();
+      const result = data.Results && data.Results[0] ? data.Results[0] : null;
+
+      if (!result) {
+        setStatus("Impossible de lire ce VIN.", "err");
+        return;
+      }
+
+      const year = result.ModelYear || "";
+      const make = result.Make || "";
+      const model = result.Model || "";
+
+      if (!year && !make && !model) {
+        setStatus("Aucune donnée trouvée pour ce VIN.", "err");
+        return;
+      }
+
+      if (year) yearInput.value = year;
+      if (make) makeInput.value = make;
+      if (model) modelInput.value = model;
+
+      setStatus("VIN décodé avec succès.", "ok");
+    } catch (error) {
+      setStatus("Le décodage du VIN a échoué.", "err");
+      console.error(error);
+    }
+  }
+
+  vinInput.addEventListener("input", () => {
+    const vin = cleanVin(vinInput.value);
+    vinInput.value = vin;
+
+    clearTimeout(vinTimer);
+
+    if (vin.length < 17) {
+      setStatus("");
+      return;
+    }
+
+    if (vin.length > 17) {
+      setStatus("Le VIN doit contenir 17 caractères.", "err");
+      return;
+    }
+
+    vinTimer = setTimeout(() => {
+      decodeVin(vin);
+    }, 500);
+  });
+</script>
+
+</body>
+</html>
